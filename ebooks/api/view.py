@@ -1,8 +1,9 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework.generics import get_object_or_404
 
 from ebooks.models import Ebook, Review
 from ebooks.api.serializers import EbookSerializer, ReviewSerializer
+from ebooks.api.permissions import IsAdminOrReadOnly
 
 '''
 class EbookListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
@@ -20,6 +21,7 @@ class EbookListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, gen
 class EbookListCreateAPIView(generics.ListCreateAPIView):
     queryset = Ebook.objects.all()
     serializer_class = EbookSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class EbookDetailAPIVIEW(generics.RetrieveUpdateDestroyAPIView):

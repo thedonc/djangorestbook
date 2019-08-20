@@ -5,6 +5,7 @@ from rest_framework.exceptions import ValidationError
 from ebooks.models import Ebook, Review
 from ebooks.api.serializers import EbookSerializer, ReviewSerializer
 from ebooks.api.permissions import IsAdminOrReadOnly, IsReviewAuthorOrReadOnly
+from ebooks.api.pagination import SmallSetPagination
 
 '''
 class EbookListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
@@ -20,9 +21,10 @@ class EbookListCreateAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, gen
 
 
 class EbookListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Ebook.objects.all()
+    queryset = Ebook.objects.all().order_by("-id")
     serializer_class = EbookSerializer
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = SmallSetPagination
 
 
 class EbookDetailAPIVIEW(generics.RetrieveUpdateDestroyAPIView):
